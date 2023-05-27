@@ -31,6 +31,12 @@ const sortRes = computed(() => {
     return res.value.sort((a,b)=>a.price > b.price ? -1 : 1)
 })
 
+const remove = (item) =>{
+  res.value.splice(res.value.findIndex(el => el.id ===item),1)
+}
+
+
+
   
 onMounted( () => {
   getData()
@@ -56,9 +62,16 @@ onMounted( () => {
           <option class="selector" value="price">Цена</option>
         </select>
       </div>
-        <div class="cards-container" v-for="(item,n) in res" :key="n">
+      <div class="cards-container">
+
+
+
+
+
+        <div  v-for="(item,n) in res" :key="n">
           <div v-if="isLoading">
-              <div class="contacardsiner__card">
+              <div class="card">
+                <button class="card__btn" @click="remove(item.id)">X</button>
                 Марка:<input class="inputs" type="input" v-model="res[n].name">
                 Модель:<input class="inputs" type="input" v-model="res[n].model">
                 Цена:<input class="inputs" type="input" v-model="res[n].price">
@@ -75,6 +88,13 @@ onMounted( () => {
           </div>
         
         </div>
+
+
+
+
+
+      </div>
+       
       </div>
     
   </body>
@@ -82,11 +102,21 @@ onMounted( () => {
 
 <style scoped>
 .container{
+  position: relative;
   font-weight: 700;
   font-family: 'IBM Plex Sans', sans-serif;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cards-container{
+ width: 100%;
+ display: flex;
+ height: 100%;
+ flex-wrap: wrap;
+ justify-content: center 
 }
 
 .inputs{
@@ -95,7 +125,8 @@ onMounted( () => {
   border-radius: 16px;
 }
 
-.contacardsiner__card{
+.card{
+  position: relative;
   justify-content: space-between;
   color: rgb(61, 54, 94);
   box-shadow: 1px 4px 7px rgba(96, 104, 101, 0.3);
@@ -109,6 +140,26 @@ onMounted( () => {
   display: flex;
   flex-direction: column;
 }
+
+.card__btn{
+  position: absolute;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  border: none;
+  background-color: rgba(47, 31, 133, 0.2);
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  transition: background-color ease-in-out 0.2s;
+}
+
+
+.card__btn:hover{
+  transition: background-color ease-in-out 0.2s;
+  background-color:  rgba(47, 31, 133, 0.6);;
+}
+
 .inputs{
   padding-left: 15px;
   height: 30px;
