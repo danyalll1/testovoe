@@ -1,7 +1,7 @@
 <script setup>
 
 import axios from 'axios'
-import { ref,  onMounted, computed} from 'vue'
+import { ref,  onBeforeMount, computed} from 'vue'
 
 async function getData() {
   try{
@@ -24,13 +24,13 @@ let  link = 'https://test.tspb.su/test-task/vehicles'
 let isLoading = false
 const query = ref('year')
 
-const sortRes = computed(() => {
-    if (query.value === 'year')
-    return res.value.sort((a,b)=>a.year > b.year ? -1 : 1)
-    if (query.value = 'price')
-    return res.value.sort((a,b)=>a.price > b.price ? -1 : 1)
-})
-
+const sortRes = computed(()=>{
+  if (query.value === 'year')
+ return res.value.sort((a,b)=>a.year > b.year ? -1 : 1)
+  if (query.value = 'price')
+ return res.value.sort((a,b)=>a.price > b.price ? -1 : 1)
+} 
+)
 const remove = (item) =>{
   res.value.splice(res.value.findIndex(el => el.id ===item),1)
 }
@@ -38,7 +38,7 @@ const remove = (item) =>{
 
 
   
-onMounted( () => {
+onBeforeMount( () => {
   getData()
   })
 
@@ -68,7 +68,7 @@ onMounted( () => {
 
 
 
-        <div  v-for="(item,n) in res" :key="n">
+        <div  v-for="(item,n) in sortRes" :key="n">
           <div v-if="isLoading">
               <div class="card">
                 <button class="card__btn" @click="remove(item.id)">X</button>
@@ -184,6 +184,7 @@ onMounted( () => {
   width: 15px;
   margin-top: 3px;
   margin-left: 10px;
+  border: solid 1px
 }
 
 .filter-container{
